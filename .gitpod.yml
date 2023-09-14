@@ -1,0 +1,6 @@
+tasks:
+  - command: make mojo
+vscode:
+  extensions:
+    - "Codeium.codeium"
+    - "modular-mojotools.vscode-mojo"
