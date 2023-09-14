@@ -1,3 +1,21 @@
+## Usage
+
+```mojo
+let now = Instant.utc_now()
+let dt = DateTimeLocal.from_instant(now)
+```
+
+Coming up
+- Types
+  - `ZonedDateTime`
+  - `Date`
+  - `Time`
+  - `Duration`
+  - `TimeZone`
+
+
+## Testing 
+
 `mojo run test.mojo`
 
 ```
