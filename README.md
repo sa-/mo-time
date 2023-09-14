@@ -1,7 +1,7 @@
 ## Usage
 
 ```mojo
-let now = Instant.utc_now()
+let now = Instant.now()
 let dt = DateTimeLocal.from_instant(now)
 ```
 
