@@ -6,6 +6,7 @@ def main():
     let now = Instant.now()
     let dt = DateTimeLocal.from_instant(now)
     print(dt.__str__())
+    print(dt.is_daylight_savings)
     let duration = Duration(0, 0, 0, 365, 0, 0)
     let new_dt = dt.adjust(duration)
     print(new_dt.__str__())

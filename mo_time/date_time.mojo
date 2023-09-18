@@ -54,7 +54,7 @@ struct DateTimeLocal:
 
     fn adjust(self, offset: Duration) -> Self:
         print("checkpoint 1")
-        let new_tm = C_tm(
+        var new_tm = C_tm(
             self._c_tm.tm_sec + offset.seconds,
             self._c_tm.tm_min + offset.minutes,
             self._c_tm.tm_hour + offset.hours,
@@ -67,7 +67,9 @@ struct DateTimeLocal:
         )
 
         print("checkpoint 2")
-        let normalized_time_t = external_call["mktime", Int, C_tm](new_tm)
+        let normalized_time_t = external_call["mktime", Int, Pointer[C_tm]](
+            Pointer[C_tm].address_of(new_tm)
+        )
         print(normalized_time_t)
         print("checkpoint 3")
         let ts = _CTimeSpec(normalized_time_t, 0)
