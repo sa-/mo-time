@@ -70,7 +70,7 @@ struct DateTimeLocal:
         let normalized_time_t = external_call["mktime", Int, Pointer[C_tm]](
             Pointer[C_tm].address_of(new_tm)
         )
-        print(normalized_time_t)
+        print(normalized_time_t)  # prints -58234337578
         print("checkpoint 3")
         let ts = _CTimeSpec(normalized_time_t, 0)
         let normalized_tm = ts_to_tm(ts)
