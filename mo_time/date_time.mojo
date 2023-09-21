@@ -59,8 +59,8 @@ struct DateTimeLocal:
         )
 
     fn plus_months(self, months: Int32) -> Self:
-        let new_year = self.year + months / 12
-        let new_month = (months % 12) + 1
+        let new_year = self.year + (months / 12)
+        let new_month = ((self.month - 1 + months) % 12) + 1
         return DateTimeLocal(
             self.second,
             self.minute,
@@ -71,6 +71,7 @@ struct DateTimeLocal:
         )
 
     fn plus_days(self, days: Int32) -> Self:
+        """Broken."""
         var new_day = days + self.day_of_month
 
         # handle overflow
@@ -84,7 +85,7 @@ struct DateTimeLocal:
             overflow_months += 1
 
         let new_year = self.year + overflow_months / 12
-        let new_month = (overflow_months % 12) + 1
+        let new_month = ((self.month - 1 + overflow_months) % 12) + 1
         return DateTimeLocal(
             self.second,
             self.minute,
