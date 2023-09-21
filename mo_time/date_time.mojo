@@ -1,5 +1,5 @@
 from mo_time.ctypes import ts_to_tm, _CTimeSpec, C_tm
-from mo_time.duration import Duration
+from mo_time.duration import Duration, days_in_month
 
 
 @value
@@ -24,10 +24,6 @@ struct DateTimeLocal:
     var day_of_month: Int32
     var month: Int32
     var year: Int32
-    var day_of_week: Int32
-    var day_of_year: Int32
-    var is_daylight_savings: Bool
-    var _c_tm: C_tm
 
     @staticmethod
     fn from_instant(instant: Instant) -> Self:
@@ -46,35 +42,95 @@ struct DateTimeLocal:
             tm.tm_mday,
             tm.tm_mon + 1,
             tm.tm_year + 1900,
-            tm.tm_wday,
-            tm.tm_yday,
-            not tm.tm_isdst.__bool__(),
-            tm,
         )
 
-    fn adjust(self, offset: Duration) -> Self:
-        print("checkpoint 1")
-        var new_tm = C_tm(
-            self._c_tm.tm_sec + offset.seconds,
-            self._c_tm.tm_min + offset.minutes,
-            self._c_tm.tm_hour + offset.hours,
-            self._c_tm.tm_mday + offset.days,
-            self._c_tm.tm_mon + offset.months - 1,
-            self._c_tm.tm_year + offset.years - 1900,
-            self._c_tm.tm_wday,
-            self._c_tm.tm_yday,
-            self._c_tm.tm_isdst,
+    @staticmethod
+    fn now() -> Self:
+        return DateTimeLocal.from_instant(Instant.now())
+
+    fn plus_years(self, years: Int32) -> Self:
+        return DateTimeLocal(
+            self.second,
+            self.minute,
+            self.hour,
+            self.day_of_month,
+            self.month,
+            self.year + years,
         )
 
-        print("checkpoint 2")
-        let normalized_time_t = external_call["mktime", Int, Pointer[C_tm]](
-            Pointer[C_tm].address_of(new_tm)
+    fn plus_months(self, months: Int32) -> Self:
+        let new_year = self.year + months / 12
+        let new_month = (months % 12) + 1
+        return DateTimeLocal(
+            self.second,
+            self.minute,
+            self.hour,
+            self.day_of_month,
+            new_month,
+            new_year,
         )
-        print(normalized_time_t)  # prints -58234337578
-        print("checkpoint 3")
-        let ts = _CTimeSpec(normalized_time_t, 0)
-        let normalized_tm = ts_to_tm(ts)
-        return Self._from_tm(normalized_tm)
+
+    fn plus_days(self, days: Int32) -> Self:
+        var new_day = days + self.day_of_month
+
+        # handle overflow
+        var overflow_months: Int32 = 0
+        while new_day > days_in_month(
+            self.year.__int__(), ((self.month + overflow_months) % 12).__int__()
+        ):
+            new_day -= days_in_month(
+                self.year.__int__(), ((self.month + overflow_months) % 12).__int__()
+            )
+            overflow_months += 1
+
+        let new_year = self.year + overflow_months / 12
+        let new_month = (overflow_months % 12) + 1
+        return DateTimeLocal(
+            self.second,
+            self.minute,
+            self.hour,
+            new_day,
+            new_month,
+            new_year,
+        )
+
+    fn plus_hours(self, hours: Int32) -> Self:
+        let new_hour = (self.hour + hours) % 24
+
+        let overflow_days = hours / 24
+
+        return DateTimeLocal(
+            self.second,
+            self.minute,
+            new_hour,
+            self.day_of_month,
+            self.month,
+            self.year,
+        ).plus_days(overflow_days)
+
+    fn plus_minutes(self, minutes: Int32) -> Self:
+        let new_minute = (self.minute + minutes) % 60
+        let overflow_hours = minutes / 60
+        return DateTimeLocal(
+            self.second,
+            new_minute,
+            self.hour,
+            self.day_of_month,
+            self.month,
+            self.year,
+        ).plus_hours(overflow_hours)
+
+    fn plus_seconds(self, seconds: Int32) -> Self:
+        let new_second = (self.second + seconds) % 60
+        let overflow_minutes = seconds / 60
+        return DateTimeLocal(
+            new_second,
+            self.minute,
+            self.hour,
+            self.day_of_month,
+            self.month,
+            self.year,
+        ).plus_minutes(overflow_minutes)
 
     fn __str__(self) -> String:
         # TODO use strftime
