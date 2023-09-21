@@ -6,7 +6,7 @@ from mo_time.duration import Duration, days_in_month
 struct Date:
     var year: Int32
     var month: Int32
-    var day_of_month: Int32
+    var day: Int32
 
 
 @value
@@ -21,7 +21,7 @@ struct DateTimeLocal:
     var second: Int32
     var minute: Int32
     var hour: Int32
-    var day_of_month: Int32
+    var day: Int32
     var month: Int32
     var year: Int32
 
@@ -53,7 +53,7 @@ struct DateTimeLocal:
             self.second,
             self.minute,
             self.hour,
-            self.day_of_month,
+            self.day,
             self.month,
             self.year + years,
         )
@@ -65,14 +65,14 @@ struct DateTimeLocal:
             self.second,
             self.minute,
             self.hour,
-            self.day_of_month,
+            self.day,
             new_month,
             new_year,
         )
 
     fn plus_days(self, days: Int32) -> Self:
         """Broken."""
-        var new_day = days + self.day_of_month
+        var new_day = days + self.day
 
         # handle overflow
         var overflow_months: Int32 = 0
@@ -104,7 +104,7 @@ struct DateTimeLocal:
             self.second,
             self.minute,
             new_hour,
-            self.day_of_month,
+            self.day,
             self.month,
             self.year,
         ).plus_days(overflow_days)
@@ -116,7 +116,7 @@ struct DateTimeLocal:
             self.second,
             new_minute,
             self.hour,
-            self.day_of_month,
+            self.day,
             self.month,
             self.year,
         ).plus_hours(overflow_hours)
@@ -128,7 +128,7 @@ struct DateTimeLocal:
             new_second,
             self.minute,
             self.hour,
-            self.day_of_month,
+            self.day,
             self.month,
             self.year,
         ).plus_minutes(overflow_minutes)
@@ -141,8 +141,8 @@ struct DateTimeLocal:
             + ("0" if self.month < 10 else "")
             + String(self.month.to_int())
             + "-"
-            + ("0" if self.day_of_month < 10 else "")
-            + String(self.day_of_month.to_int())
+            + ("0" if self.day < 10 else "")
+            + String(self.day.to_int())
             + "T"
             + ("0" if self.hour < 10 else "")
             + String(self.hour.to_int())
