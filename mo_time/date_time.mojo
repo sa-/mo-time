@@ -137,13 +137,18 @@ struct DateTimeLocal:
         return (
             String(self.year.to_int())
             + "-"
+            + ("0" if self.month < 10 else "")
             + String(self.month.to_int())
             + "-"
+            + ("0" if self.day_of_month < 10 else "")
             + String(self.day_of_month.to_int())
             + "T"
+            + ("0" if self.hour < 10 else "")
             + String(self.hour.to_int())
             + ":"
+            + ("0" if self.minute < 10 else "")
             + String(self.minute.to_int())
             + ":"
+            + ("0" if self.second < 10 else "")
             + String(self.second.to_int())
         )
