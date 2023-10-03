@@ -73,19 +73,21 @@ struct DateTimeLocal:
     fn plus_days(self, days: Int32) -> Self:
         """Broken."""
         var new_day = days + self.day
+        var new_month = self.month
+        var new_year = self.year
 
-        # handle overflow
-        var overflow_months: Int32 = 0
-        while new_day > days_in_month(
-            self.year.__int__(), ((self.month + overflow_months) % 12).__int__()
-        ):
-            new_day -= days_in_month(
-                self.year.__int__(), ((self.month + overflow_months) % 12).__int__()
+        var days_in_current_month = days_in_month(
+            new_year.__int__(), new_month.__int__()
+        )
+
+        while new_day > days_in_current_month:
+            new_day -= days_in_current_month
+            new_year += UInt8(new_month == 12).to_int()
+            new_month = (new_month % 12) + 1
+            days_in_current_month = days_in_month(
+                new_year.__int__(), new_month.__int__()
             )
-            overflow_months += 1
 
-        let new_year = self.year + overflow_months / 12
-        let new_month = ((self.month - 1 + overflow_months) % 12) + 1
         return DateTimeLocal(
             self.second,
             self.minute,
@@ -153,3 +155,6 @@ struct DateTimeLocal:
             + ("0" if self.second < 10 else "")
             + String(self.second.to_int())
         )
+
+    fn __repr__(self) -> String:
+        return self.__str__()
