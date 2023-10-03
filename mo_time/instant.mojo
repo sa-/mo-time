@@ -14,6 +14,6 @@ struct Instant:
         self.nanos = 0
 
     @staticmethod
-    fn utc_now() -> Self:
+    fn now() -> Self:
         let ts = clock_gettime()
         return Instant(ts.tv_sec, ts.tv_nsec)
