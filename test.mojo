@@ -15,4 +15,7 @@ fn main():
 
     print(dt2.plus_years(1).__str__())
     print(dt2.plus_months(12).__str__())
-    print(dt2.plus_days(365).__str__())
+    print(dt2.plus_days(366).__str__())
+    print(dt2.plus_hours(8784).__str__())
+    print(dt2.plus_minutes(527040).__str__())
+    print(dt2.plus_seconds(31622400).__str__())
