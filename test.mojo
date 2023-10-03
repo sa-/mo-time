@@ -4,7 +4,7 @@ from mo_time import Instant, DateTimeLocal, Duration
 # These are tests, I am not recommending that we add these in 😁
 fn main():
     let now = Instant.now()
-    let dt = DateTimeLocal.now()
+    let dt = DateTimeLocal.now_utc()
     print(dt.__str__())
     let duration = Duration(0, 0, 0, 365, 0, 0)
     # let new_dt = dt.adjust(duration)

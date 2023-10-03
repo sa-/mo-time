@@ -45,7 +45,7 @@ struct DateTimeLocal:
         )
 
     @staticmethod
-    fn now() -> Self:
+    fn now_utc() -> Self:
         return DateTimeLocal.from_instant(Instant.now())
 
     fn plus_years(self, years: Int32) -> Self:

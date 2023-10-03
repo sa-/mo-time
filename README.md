@@ -1,8 +1,22 @@
+Status: Experimental. 
+
+Please don't put negative numbers in `plus_*` functions 😬
+
 ## Usage
+
+Download the package from `dist/mo_time.mojopkg`
 
 ```mojo
 let now = Instant.now()
-let dt = DateTimeLocal.from_instant(now)
+let dt = DateTimeLocal.now_utc()
+let dt2 = DateTimeLocal.from_instant(now)
+
+dt2.plus_years(1)
+dt2.plus_months(12)
+dt2.plus_days(366)
+dt2.plus_hours(8784)
+dt2.plus_minutes(527040)
+dt2.plus_seconds(31622400)
 ```
 
 Coming up
@@ -16,16 +30,4 @@ Coming up
 
 ## Testing 
 
-`mojo run test.mojo`
-
-```
-second:  6
-minute:  17
-hour:  7
-day_of_month:  14
-month:  9
-year:  2023
-weekday:  4
-day_of_year:  256
-is_daylight_savings:  False
-```
+`make test`
