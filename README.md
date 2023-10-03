@@ -6,7 +6,7 @@ Please don't put negative numbers in `plus_*` functions 😬
 
 Download the package from `dist/mo_time.mojopkg`
 
-```mojo
+```python
 let now = Instant.now()
 let dt = DateTimeLocal.now_utc()
 let dt2 = DateTimeLocal.from_instant(now)
