@@ -10,6 +10,7 @@ Download the package from `dist/mo_time.mojopkg`
 let now = Instant.now()
 let dt = DateTimeLocal.now_utc()
 let dt2 = DateTimeLocal.from_instant(now)
+let dt3 = DateTimeLocal(2023, 9, 14, 0, 0, 0)
 
 dt2.plus_years(1)
 dt2.plus_months(12)
@@ -21,7 +22,7 @@ dt2.plus_seconds(31622400)
 
 Coming up
 - Types
-  - `ZonedDateTime`
+  - `DateTimeZoned`
   - `Date`
   - `Time`
   - `Duration`

@@ -7,10 +7,8 @@ fn main():
     let dt = DateTimeLocal.now_utc()
     print(dt.__str__())
     let duration = Duration(0, 0, 0, 365, 0, 0)
-    # let new_dt = dt.adjust(duration)
-    # print(new_dt.__str__())
 
-    let dt2 = DateTimeLocal(0, 0, 0, 14, 9, 2023)
+    let dt2 = DateTimeLocal(2023, 9, 14, 0, 0, 0)
     print(dt2.__str__())
 
     print(dt2.plus_years(1).__str__())

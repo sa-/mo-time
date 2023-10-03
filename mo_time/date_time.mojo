@@ -18,12 +18,12 @@ struct Time:
 
 @value
 struct DateTimeLocal:
-    var second: Int32
-    var minute: Int32
-    var hour: Int32
-    var day: Int32
-    var month: Int32
     var year: Int32
+    var month: Int32
+    var day: Int32
+    var hour: Int32
+    var minute: Int32
+    var second: Int32
 
     @staticmethod
     fn from_instant(instant: Instant) -> Self:
@@ -36,12 +36,12 @@ struct DateTimeLocal:
     @staticmethod
     fn _from_tm(tm: C_tm) -> Self:
         return DateTimeLocal(
-            tm.tm_sec,
-            tm.tm_min,
-            tm.tm_hour,
-            tm.tm_mday,
-            tm.tm_mon + 1,
             tm.tm_year + 1900,
+            tm.tm_mon + 1,
+            tm.tm_mday,
+            tm.tm_hour,
+            tm.tm_min,
+            tm.tm_sec,
         )
 
     @staticmethod
@@ -50,24 +50,24 @@ struct DateTimeLocal:
 
     fn plus_years(self, years: Int32) -> Self:
         return DateTimeLocal(
-            self.second,
-            self.minute,
-            self.hour,
-            self.day,
-            self.month,
             self.year + years,
+            self.month,
+            self.day,
+            self.hour,
+            self.minute,
+            self.second,
         )
 
     fn plus_months(self, months: Int32) -> Self:
         let new_year = self.year + (months / 12)
         let new_month = ((self.month - 1 + months) % 12) + 1
         return DateTimeLocal(
-            self.second,
-            self.minute,
-            self.hour,
-            self.day,
-            new_month,
             new_year,
+            new_month,
+            self.day,
+            self.hour,
+            self.minute,
+            self.second,
         )
 
     fn plus_days(self, days: Int32) -> Self:
@@ -89,12 +89,12 @@ struct DateTimeLocal:
             )
 
         return DateTimeLocal(
-            self.second,
-            self.minute,
-            self.hour,
-            new_day,
-            new_month,
             new_year,
+            new_month,
+            new_day,
+            self.hour,
+            self.minute,
+            self.second,
         )
 
     fn plus_hours(self, hours: Int32) -> Self:
@@ -103,36 +103,36 @@ struct DateTimeLocal:
         let overflow_days = hours / 24
 
         return DateTimeLocal(
-            self.second,
-            self.minute,
-            new_hour,
-            self.day,
-            self.month,
             self.year,
+            self.month,
+            self.day,
+            new_hour,
+            self.minute,
+            self.second,
         ).plus_days(overflow_days)
 
     fn plus_minutes(self, minutes: Int32) -> Self:
         let new_minute = (self.minute + minutes) % 60
         let overflow_hours = minutes / 60
         return DateTimeLocal(
-            self.second,
-            new_minute,
-            self.hour,
-            self.day,
-            self.month,
             self.year,
+            self.month,
+            self.day,
+            self.hour,
+            new_minute,
+            self.second,
         ).plus_hours(overflow_hours)
 
     fn plus_seconds(self, seconds: Int32) -> Self:
         let new_second = (self.second + seconds) % 60
         let overflow_minutes = seconds / 60
         return DateTimeLocal(
-            new_second,
-            self.minute,
-            self.hour,
-            self.day,
-            self.month,
             self.year,
+            self.month,
+            self.day,
+            self.hour,
+            self.minute,
+            new_second,
         ).plus_minutes(overflow_minutes)
 
     fn __str__(self) -> String:
