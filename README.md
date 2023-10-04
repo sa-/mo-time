@@ -1,4 +1,4 @@
-Status: Experimental. 
+![](https://img.shields.io/badge/status-alpha-orange)
 
 Please don't put negative numbers in `plus_*` functions yet 😬
 
@@ -36,6 +36,7 @@ dt.plus_seconds(31622400)
 
 Coming up
 - Types
+  - `DateTimeOffset`
   - `DateTimeZoned`
   - `Date`
   - `Time`
