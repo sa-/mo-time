@@ -81,7 +81,6 @@ struct DateTimeLocal:
         )
 
     fn plus_days(self, days: Int32) -> Self:
-        """Broken."""
         var new_day = days + self.day
         var new_month = self.month
         var new_year = self.year
