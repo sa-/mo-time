@@ -4,7 +4,11 @@ from testing import assert_equal
 
 # These are tests, I am not recommending that we add these in 😁
 fn main():
-    let now = Instant.now()
+    let instant = Instant.now()
+    let dt_instant = DateTimeLocal.from_instant(instant)
+    print("dt_instant: ", dt_instant.__str__())
+    let dt_utc_instant = DateTimeLocal.from_instant_utc(instant)
+    print("dt_utc_instant: ", dt_utc_instant.__str__())
 
     let dt_utc = DateTimeLocal.now_utc()
     print("dt_utc: ", dt_utc.__str__())

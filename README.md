@@ -4,9 +4,11 @@ Please don't put negative numbers in `plus_*` functions yet 😬
 
 ## Usage
 
-Download the package from `dist/mo_time.mojopkg`
+Grab a `.mojopkg` from the releases, or clone this repo and run `make build`
 
 ```python
+from mo_time import Instant, DateTimeLocal
+
 # Instantiate with the .now static methods
 DateTimeLocal.now_utc()
 DateTimeLocal.now()
