@@ -9,7 +9,6 @@ fn is_leap_year(year: Int) -> Bool:
 
 
 fn days_in_month(year: Int, month: Int) -> Int:
-    # TODO branchless bool to int conversion
     let should_add_leap_day = month == 2 and is_leap_year(year)
     let leap_day_addition = UInt8(should_add_leap_day).to_int()
     return _DAYS_IN_MONTH[month - 1] + leap_day_addition
