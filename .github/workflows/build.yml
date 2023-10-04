@@ -1,0 +1,33 @@
+name: Build and Release
+
+# define your mojo package name here
+# set the path to the directory containing the module files
+
+env:
+  PACKAGE_NAME: mo_time.mojopkg
+  MOJO_DIR: mo_time
+  MOJO_HOME: /home/runner/.modular/pkg/packages.modular.com_mojo/bin
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        curl https://get.modular.com | MODULAR_AUTH=${{ secrets.MODULAR_AUTH }} sh - 
+        modular install mojo
+
+    - name: Build
+      run: |
+        ${{ env.MOJO_HOME }}/mojo package ${{ env.MOJO_DIR }} -o ${{ github.workspace }}/${{ env.PACKAGE_NAME }}
+
+    - name: Upload package
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ env.PACKAGE_NAME }}
+        path: ${{ github.workspace }}/${{ env.PACKAGE_NAME }}
