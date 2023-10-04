@@ -1,4 +1,4 @@
-from mo_time.ctypes import ts_to_tm, _CTimeSpec, C_tm
+from mo_time.ctypes import ts_to_local_tm, ts_to_utc_tm, _CTimeSpec, C_tm
 from mo_time.duration import Duration, days_in_month
 
 
@@ -26,10 +26,16 @@ struct DateTimeLocal:
     var second: Int32
 
     @staticmethod
-    fn from_instant(instant: Instant) -> Self:
-        """Defaults to UTC."""
+    fn from_instant_utc(instant: Instant) -> Self:
         let ts = _CTimeSpec(instant.seconds, instant.nanos)
-        let tm = ts_to_tm(ts)
+        let tm = ts_to_utc_tm(ts)
+
+        return DateTimeLocal._from_tm(tm)
+
+    @staticmethod
+    fn from_instant(instant: Instant) -> Self:
+        let ts = _CTimeSpec(instant.seconds, instant.nanos)
+        let tm = ts_to_local_tm(ts)
 
         return DateTimeLocal._from_tm(tm)
 
@@ -46,6 +52,10 @@ struct DateTimeLocal:
 
     @staticmethod
     fn now_utc() -> Self:
+        return DateTimeLocal.from_instant_utc(Instant.now())
+
+    @staticmethod
+    fn now() -> Self:
         return DateTimeLocal.from_instant(Instant.now())
 
     fn plus_years(self, years: Int32) -> Self:

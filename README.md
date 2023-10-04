@@ -1,23 +1,37 @@
 Status: Experimental. 
 
-Please don't put negative numbers in `plus_*` functions 😬
+Please don't put negative numbers in `plus_*` functions yet 😬
 
 ## Usage
 
-Download the package from `dist/mo_time.mojopkg`
+Grab a `.mojopkg` from the releases, or clone this repo and run `make build`
 
 ```python
-let now = Instant.now()
-let dt = DateTimeLocal.now_utc()
-let dt2 = DateTimeLocal.from_instant(now)
-let dt3 = DateTimeLocal(2023, 9, 14, 0, 0, 0)
+from mo_time import Instant, DateTimeLocal
 
-dt2.plus_years(1)
-dt2.plus_months(12)
-dt2.plus_days(366)
-dt2.plus_hours(8784)
-dt2.plus_minutes(527040)
-dt2.plus_seconds(31622400)
+# Instantiate with the .now static methods
+DateTimeLocal.now_utc()
+DateTimeLocal.now()
+
+# or from an Instant
+let instant = Instant.now()
+DateTimeLocal.from_instant(instant)
+DateTimeLocal.from_instant_utc(instant)
+
+# or with the constructor
+DateTimeLocal(2023, 9, 14, 0, 0, 0)
+
+# Print
+let dt = DateTimeLocal.now_utc()
+print(dt.__str__())
+
+# Supports basic arithmetic
+dt.plus_years(1)
+dt.plus_months(12)
+dt.plus_days(366)
+dt.plus_hours(8784)
+dt.plus_minutes(527040)
+dt.plus_seconds(31622400)
 ```
 
 Coming up

@@ -60,9 +60,18 @@ struct C_tm:
 
 
 @always_inline
-fn ts_to_tm(owned ts: _CTimeSpec) -> C_tm:
+fn ts_to_utc_tm(owned ts: _CTimeSpec) -> C_tm:
     let ts_pointer = Pointer[Int].address_of(ts.tv_sec)
 
     # Call libc's clock_gettime.
     let tm = external_call["gmtime", Pointer[C_tm], Pointer[Int]](ts_pointer).load()
+    return tm
+
+
+@always_inline
+fn ts_to_local_tm(owned ts: _CTimeSpec) -> C_tm:
+    let ts_pointer = Pointer[Int].address_of(ts.tv_sec)
+
+    # Call libc's clock_gettime.
+    let tm = external_call["localtime", Pointer[C_tm], Pointer[Int]](ts_pointer).load()
     return tm
