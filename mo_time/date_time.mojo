@@ -8,12 +8,32 @@ struct Date:
     var month: Int32
     var day: Int32
 
+    fn to_datetimelocal(self, time: Time) -> DateTimeLocal:
+        return DateTimeLocal(
+            self.year,
+            self.month,
+            self.day,
+            time.hour,
+            time.minute,
+            time.second,
+        )
+
 
 @value
 struct Time:
     var hour: Int32
     var minute: Int32
     var second: Int32
+
+    fn to_datetimelocal(self, date: Date) -> DateTimeLocal:
+        return DateTimeLocal(
+            date.year,
+            date.month,
+            date.day,
+            self.hour,
+            self.minute,
+            self.second,
+        )
 
 
 @value
@@ -58,6 +78,22 @@ struct DateTimeLocal:
     fn now() -> Self:
         return DateTimeLocal.from_instant(Instant.now())
 
+    # type conversions
+    fn to_date(self) -> Date:
+        return Date(
+            self.year,
+            self.month,
+            self.day,
+        )
+
+    fn to_time(self) -> Time:
+        return Time(
+            self.hour,
+            self.minute,
+            self.second,
+        )
+
+    # arithmetic
     fn plus_years(self, years: Int32) -> Self:
         return DateTimeLocal(
             self.year + years,
