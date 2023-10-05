@@ -18,6 +18,9 @@ struct Date:
             time.second,
         )
 
+    fn to_datetimelocal(self) -> DateTimeLocal:
+        return DateTimeLocal(self.year, self.month, self.day, 0, 0, 0)
+
 
 @value
 struct Time:
