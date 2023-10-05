@@ -130,7 +130,7 @@ struct DateTimeLocal:
 
         while new_day > days_in_current_month:
             new_day -= days_in_current_month
-            new_year += UInt8(new_month == 12).to_int()
+            new_year += new_month // 12
             new_month = (new_month % 12) + 1
             days_in_current_month = days_in_month(
                 new_year.__int__(), new_month.__int__()
