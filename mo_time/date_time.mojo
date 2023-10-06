@@ -8,12 +8,35 @@ struct Date:
     var month: Int32
     var day: Int32
 
+    fn to_datetimelocal(self, time: Time) -> DateTimeLocal:
+        return DateTimeLocal(
+            self.year,
+            self.month,
+            self.day,
+            time.hour,
+            time.minute,
+            time.second,
+        )
+
+    fn to_datetimelocal(self) -> DateTimeLocal:
+        return DateTimeLocal(self.year, self.month, self.day, 0, 0, 0)
+
 
 @value
 struct Time:
     var hour: Int32
     var minute: Int32
     var second: Int32
+
+    fn to_datetimelocal(self, date: Date) -> DateTimeLocal:
+        return DateTimeLocal(
+            date.year,
+            date.month,
+            date.day,
+            self.hour,
+            self.minute,
+            self.second,
+        )
 
 
 @value
@@ -58,6 +81,22 @@ struct DateTimeLocal:
     fn now() -> Self:
         return DateTimeLocal.from_instant(Instant.now())
 
+    # type conversions
+    fn to_date(self) -> Date:
+        return Date(
+            self.year,
+            self.month,
+            self.day,
+        )
+
+    fn to_time(self) -> Time:
+        return Time(
+            self.hour,
+            self.minute,
+            self.second,
+        )
+
+    # arithmetic
     fn plus_years(self, years: Int32) -> Self:
         return DateTimeLocal(
             self.year + years,
@@ -91,7 +130,7 @@ struct DateTimeLocal:
 
         while new_day > days_in_current_month:
             new_day -= days_in_current_month
-            new_year += UInt8(new_month == 12).to_int()
+            new_year += new_month // 12
             new_month = (new_month % 12) + 1
             days_in_current_month = days_in_month(
                 new_year.__int__(), new_month.__int__()

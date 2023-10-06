@@ -2,7 +2,6 @@ from mo_time import Instant, DateTimeLocal, Duration
 from testing import assert_equal
 
 
-# These are tests, I am not recommending that we add these in 😁
 fn main():
     let instant = Instant.now()
     let dt_instant = DateTimeLocal.from_instant(instant)
