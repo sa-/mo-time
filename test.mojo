@@ -12,6 +12,14 @@ fn main():
     let dt_utc = DateTimeLocal.now_utc()
     print("dt_utc: ", dt_utc.__str__())
 
+    try:
+        let pydt = dt_utc.to_py()
+        print("Python datetime: ", pydt.to_string())
+        let mojodt = DateTimeLocal.from_py(pydt)
+        print("Mojo datetime: ", mojodt.__str__())
+    except e:
+        print("Exception: ", e)
+
     let dt_local = DateTimeLocal.now()
     print("dt_local: ", dt_local.__str__())
     let duration = Duration(0, 0, 0, 365, 0, 0)
