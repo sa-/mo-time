@@ -1,5 +1,7 @@
 from mo_time.ctypes import ts_to_local_tm, ts_to_utc_tm, _CTimeSpec, C_tm
 from mo_time.duration import Duration, days_in_month
+from python.object import PythonObject
+from python import Python
 
 
 @value
@@ -80,6 +82,28 @@ struct DateTimeLocal:
     @staticmethod
     fn now() -> Self:
         return DateTimeLocal.from_instant(Instant.now())
+
+    @staticmethod
+    fn from_py(py_datetime: PythonObject) raises -> Self:
+        return DateTimeLocal(
+            Int32(py_datetime.year.to_float64().to_int()),
+            Int32(py_datetime.month.to_float64().to_int()),
+            Int32(py_datetime.day.to_float64().to_int()),
+            Int32(py_datetime.hour.to_float64().to_int()),
+            Int32(py_datetime.minute.to_float64().to_int()),
+            Int32(py_datetime.second.to_float64().to_int()),
+        )
+
+    fn to_py(self) raises -> PythonObject:
+        let dateimte = Python.import_module("datetime")
+        return dateimte.datetime(
+            self.year,
+            self.month,
+            self.day,
+            self.hour,
+            self.minute,
+            self.second,
+        )
 
     # type conversions
     fn to_date(self) -> Date:
