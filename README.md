@@ -21,6 +21,10 @@ DateTimeLocal.from_instant_utc(instant)
 # or with the constructor
 DateTimeLocal(2023, 9, 14, 0, 0, 0)
 
+# convert back and forth between python and mojo
+let py_dt = DateTimeLocal.now().to_py()
+let mojo_dt = DateTimeLocal.from_py(py_dt)
+
 # Print
 let dt = DateTimeLocal.now_utc()
 print(dt.__str__())
