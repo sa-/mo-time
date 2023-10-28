@@ -1,4 +1,4 @@
-from mo_time import Instant, DateTimeLocal, Duration
+from mo_time import Instant, DateTimeLocal, TimeDelta
 from testing import assert_equal
 
 
@@ -22,7 +22,7 @@ fn main():
 
     let dt_local = DateTimeLocal.now()
     print("dt_local: ", dt_local.__str__())
-    let duration = Duration(0, 0, 0, 365, 0, 0)
+    let duration = TimeDelta(0, 0, 0, 365, 0, 0, 0, 0, 0)
 
     let dt2 = DateTimeLocal(2023, 9, 14, 0, 0, 0)
     _ = assert_equal(dt2.__str__(), "2023-09-14T00:00:00")

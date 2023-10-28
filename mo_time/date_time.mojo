@@ -1,5 +1,5 @@
 from mo_time.ctypes import ts_to_local_tm, ts_to_utc_tm, _CTimeSpec, C_tm
-from mo_time.duration import Duration, days_in_month
+from mo_time.timedelta import TimeDelta, days_in_month
 from python.object import PythonObject
 from python import Python
 
