@@ -132,7 +132,7 @@ struct DateTimeLocal:
         )
 
     fn plus_months(self, months: Int32) -> Self:
-        let new_year = self.year + (months / 12)
+        let new_year = self.year + ((self.month - 1 + months) // 12)
         let new_month = ((self.month - 1 + months) % 12) + 1
         return DateTimeLocal(
             new_year,

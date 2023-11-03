@@ -3,25 +3,30 @@ from testing import assert_equal
 
 
 fn main():
+    for i in range(13):
+        print(DateTimeLocal.now_utc().plus_months(i).__str__())
+
+    print("\n================\n")
+
     let instant = Instant.now()
     let dt_instant = DateTimeLocal.from_instant(instant)
-    print("dt_instant: ", dt_instant.__str__())
+    print("dt_instant:", dt_instant.__str__())
     let dt_utc_instant = DateTimeLocal.from_instant_utc(instant)
-    print("dt_utc_instant: ", dt_utc_instant.__str__())
+    print("dt_utc_instant:", dt_utc_instant.__str__())
 
     let dt_utc = DateTimeLocal.now_utc()
-    print("dt_utc: ", dt_utc.__str__())
+    print("dt_utc:", dt_utc.__str__())
 
     try:
         let pydt = dt_utc.to_py()
-        print("Python datetime: ", pydt.to_string())
+        print("Python datetime:", pydt.to_string())
         let mojodt = DateTimeLocal.from_py(pydt)
-        print("Mojo datetime: ", mojodt.__str__())
+        print("Mojo datetime:", mojodt.__str__())
     except e:
-        print("Exception: ", e)
+        print("Exception:", e)
 
     let dt_local = DateTimeLocal.now()
-    print("dt_local: ", dt_local.__str__())
+    print("dt_local:", dt_local.__str__())
     let duration = TimeDelta(0, 0, 0, 365, 0, 0, 0, 0, 0)
 
     let dt2 = DateTimeLocal(2023, 9, 14, 0, 0, 0)
